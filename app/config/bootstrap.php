@@ -23,6 +23,10 @@
  * @see lithium\util\collection\Filters
  */
 
+if (!isset($_SERVER['CONFIG_SOURCE']) || $_SERVER['CONFIG_SOURCE'] != 'Boxfile') {
+	require __DIR__ . '/local.php';
+}
+
 /**
  * The libraries file contains the loading instructions for all plugins, frameworks and other class
  * libraries used in the application, including the Lithium core, and the application itself. These
