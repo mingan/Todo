@@ -1,0 +1,14 @@
+web1:
+  name: todo
+  shared_writable_dirs:
+    - app/resources
+  document_root: app/webroot
+  php_version: 5.3.8
+  php_extensions:
+    - eaccelerator
+    - mysql
+  php_date_timezone: "Europe/Prague"
+
+db1: #component type & number
+  name: base
+  type: mysql
