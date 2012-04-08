@@ -1,3 +1,12 @@
 [submodule "libraries/lithium"]
 	path = libraries/lithium
 	url = git://github.com/UnionOfRAD/lithium.git
+[submodule "app/libraries/ruckusing_migrations"]
+	path = app/libraries/ruckusing_migrations
+	url = https://github.com/nashape/ruckusing-migrations.git
+[submodule "app/libraries/li3_ruckusing_migrations"]
+	path = app/libraries/li3_ruckusing_migrations
+	url = https://github.com/nashape/li3_ruckusing_migrations.git
+[submodule "app/libraries/ruckusing-migrations"]
+	path = app/libraries/ruckusing-migrations
+	url = https://github.com/nashape/ruckusing-migrations.git
