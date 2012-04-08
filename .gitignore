@@ -3,3 +3,4 @@ app/libraries/*
 app/resources/tmp/*
 .*.sw[op]
 /nbproject/*
+/app/config/local.php
