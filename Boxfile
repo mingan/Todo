@@ -2,7 +2,7 @@ web1:
   name: todo
   shared_writable_dirs:
     - app/resources
-    - libraries/ruckusing-migrations/logs
+    - app/libraries/ruckusing-migrations/logs
   document_root: app/webroot
   php_version: 5.3.8
   php_extensions:
