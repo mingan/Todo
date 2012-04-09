@@ -8,6 +8,7 @@ web1:
   php_extensions:
     - eaccelerator
     - mysql
+    - pdo_mysql
   php_date_timezone: "Europe/Prague"
   before_deploy:
     - "libraries/lithium/console/li3 migration db:migrate"
