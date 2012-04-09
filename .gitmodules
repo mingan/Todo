@@ -10,3 +10,9 @@
 [submodule "app/libraries/ruckusing-migrations"]
 	path = app/libraries/ruckusing-migrations
 	url = https://github.com/nashape/ruckusing-migrations.git
+[submodule "app/libraries/li3_dateable"]
+	path = app/libraries/li3_dateable
+	url = https://github.com/weluse/li3_dateable.git
+[submodule "app/libraries/li3_behaviors"]
+	path = app/libraries/li3_behaviors
+	url = https://github.com/nateabele/li3_behaviors.git
