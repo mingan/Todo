@@ -1,6 +1,7 @@
 <?php
 
 namespace app\models;
+use app\models\Lists;
 
 class Tasks extends \li3_behaviors\extensions\Model {
 
@@ -12,6 +13,19 @@ class Tasks extends \li3_behaviors\extensions\Model {
     );
 
 	public $validates = array();
+
+	public static function __init() {
+		parent::__init();
+
+		Tasks::applyFilter('save', function ($self, $params, $chain) {
+			$result = $chain->next($self, $params, $chain);
+
+			$list = Lists::find('first', array('conditions' => array('id' => $params['data']['list_id'])));
+			$list->save();
+
+			return $result;
+		});
+	}
 }
 
 ?>
