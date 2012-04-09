@@ -67,6 +67,7 @@ if (!Environment::is('production')) {
 // Router::connect('/{:controller}/{:action}/{:id:[0-9a-f]{24}}.{:type}', array('id' => null));
 // Router::connect('/{:controller}/{:action}/{:id:[0-9a-f]{24}}');
 
+Router::connect('/list/{:id:\d+}', array('Lists::view'));
 /**
  * Finally, connect the default route. This route acts as a catch-all, intercepting requests in the
  * following forms:
