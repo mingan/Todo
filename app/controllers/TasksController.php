@@ -19,9 +19,9 @@ class TasksController extends \lithium\action\Controller {
 
 	public function add() {
 		$task = Tasks::create();
-
+var_dump(Tasks::schema());
 		if (($this->request->data) && $task->save($this->request->data)) {
-			return $this->redirect(array('Tasks::view', 'args' => array($task->id)));
+			return $this->redirect($this->request->referer());
 		}
 		return compact('task');
 	}

@@ -25,7 +25,7 @@ use lithium\console\Dispatcher as ConsoleDispatcher;
 /**
  * Sets the default timezone used by all date/time functions.
  */
-date_default_timezone_set('UTC');
+date_default_timezone_set('Europe/Prague');
 
 /**
  * Adds globalization specific settings to the environment.
@@ -68,10 +68,10 @@ Catalog::config(array(
 	'runtime' => array(
 		'adapter' => 'Memory'
 	),
-	// 'app' => array(
-	// 	'adapter' => 'Gettext',
-	// 	'path' => Libraries::get(true, 'resources') . '/g11n'
-	// ),
+	'app' => array(
+		'adapter' => 'Gettext',
+		'path' => Libraries::get(true, 'resources') . '/g11n',
+	),
 	'lithium' => array(
 		'adapter' => 'Php',
 		'path' => LITHIUM_LIBRARY_PATH . '/lithium/g11n/resources/php'
