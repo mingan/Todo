@@ -13,7 +13,16 @@ class ListsController extends \lithium\action\Controller {
 	}
 
 	public function view() {
-		$list = Lists::first($this->request->id, array('with' => 'Tasks'));
+		$list = Lists::first(
+			'first',
+			array(
+				'with' => 'Tasks',
+				'conditions' => array(
+					'Lists.id' => $this->request->id
+				),
+				'order' => 'Tasks.completed ASC, Tasks.completed_at DESC, Tasks.created DESC'
+			)
+		);
 		return compact('list');
 	}
 
