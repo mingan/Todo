@@ -30,12 +30,38 @@ class TasksController extends \lithium\action\Controller {
 		$task = Tasks::find($this->request->id);
 
 		if (!$task) {
-			return $this->redirect('Tasks::index');
+			return $this->redirect($this->request->referer());
 		}
 		if (($this->request->data) && $task->save($this->request->data)) {
-			return $this->redirect(array('Tasks::view', 'args' => array($task->id)));
+			return $this->redirect(array('Lists::view', 'args' => array($task->list_id)));
 		}
 		return compact('task');
+	}
+
+	public function completed () {
+		$task = Tasks::find($this->request->id);
+
+		if (!$task) {
+			return $this->redirect($this->request->referer());
+		}
+
+		if ($task->save(array('completed' => true, 'completed_at' => date('c')))) {
+
+		}
+		return $this->redirect(array('Lists::view', 'args' => array($task->list_id)));
+	}
+
+	public function uncompleted () {
+		$task = Tasks::find($this->request->id);
+
+		if (!$task) {
+			return $this->redirect($this->request->referer());
+		}
+
+		if ($task->save(array('completed' => false, 'completed_at' => null))) {
+
+		}
+		return $this->redirect(array('Lists::view', 'args' => array($task->list_id)));
 	}
 
 	public function delete() {
@@ -43,8 +69,9 @@ class TasksController extends \lithium\action\Controller {
 			$msg = "Tasks::delete can only be called with http:post or http:delete.";
 			throw new DispatchException($msg);
 		}
+
 		Tasks::find($this->request->id)->delete();
-		return $this->redirect('Tasks::index');
+		return $this->redirect($this->request->referer());
 	}
 }
 

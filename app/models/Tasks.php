@@ -20,7 +20,12 @@ class Tasks extends \li3_behaviors\extensions\Model {
 		Tasks::applyFilter('save', function ($self, $params, $chain) {
 			$result = $chain->next($self, $params, $chain);
 
-			$list = Lists::find('first', array('conditions' => array('id' => $params['data']['list_id'])));
+			if (!empty($params['data']['list_id'])) {
+				$listId = $params['data']['list_id'];
+			} else {
+				$listId = $params['entity']->list_id;
+			}
+			$list = Lists::find('first', array('conditions' => array('id' => $listId)));
 			$list->save();
 
 			return $result;

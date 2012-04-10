@@ -15,19 +15,18 @@ foreach ($list->tasks as $task) {
 	<li data-task_id="<?php echo $task->id ?>"<?php echo $class ?>>
 	<h2><?= $task->name ?></h2>
 	<?php if (!empty($task->desc)) {
-		echo '<div class="desc">' . $h($task->desc) . '</div>';
+		echo '<pre class="desc">' . $h($task->desc) . '</pre>';
 	}
+	echo $this->html->link($t('Edit'), array('controller' => 'tasks', 'action' => 'edit', 'id' => $task->id), array('class' => 'edit'));
+	echo $this->html->link($t('Completed'), array('controller' => 'tasks', 'action' => 'completed', 'id' => $task->id), array('class' => 'completed'));
+	echo $this->html->link($t('Uncompleted'), array('controller' => 'tasks', 'action' => 'uncompleted', 'id' => $task->id), array('class' => 'uncompleted'));
+	echo $this->form->formLink($t('Delete'), array('controller' => 'tasks', 'action' => 'delete', 'id' => $task->id), array('class' => 'delete'));
 	?>
 	</li>
 <?php
 }
 ?>
 </ul>
-<?=$this->form->create(null, array('url' => array('controller' => 'tasks', 'action' => 'add'), 'id' => 'AddTask'))?>
-	<?=$this->form->hidden('list_id', array('value' => $list->id))?>
-	<?=$this->form->text('name')?>
-	<?=$this->form->textarea('desc')?>
-	<?=$this->form->submit($t('Add')); ?>
-<?=$this->form->end()?>
+<?php echo $this->_render('element', '../tasks/add', array('listId' => $list->id)) ?>
 
 <?=$this->html->script('list', array('inline' => false))?>
