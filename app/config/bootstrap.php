@@ -23,6 +23,9 @@
  * @see lithium\util\collection\Filters
  */
 
+if (!isset($_SERVER['ENVIRONMENT'])) {
+	$_SERVER['ENVIRONMENT'] = 'production';
+}
 if (!isset($_SERVER['CONFIG_SOURCE']) || $_SERVER['CONFIG_SOURCE'] != 'Boxfile') {
 	require __DIR__ . '/local.php';
 }
@@ -83,6 +86,5 @@ require __DIR__ . '/bootstrap/action.php';
  * This file configures console filters and settings, specifically output behavior and coloring.
  */
 // require __DIR__ . '/bootstrap/console.php';
-
 
 ?>

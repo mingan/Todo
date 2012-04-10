@@ -22,5 +22,7 @@
 			<?php echo $this->content(); ?>
 		</div>
 	</div>
+
+	<?= $this->_render('element', 'dump') ?>
 </body>
 </html>
