@@ -3,6 +3,7 @@ web1:
   shared_writable_dirs:
     - app/resources
     - app/libraries/ruckusing-migrations/logs
+    - app/webroot/less
   document_root: app/webroot
   php_version: 5.3.8
   php_extensions:

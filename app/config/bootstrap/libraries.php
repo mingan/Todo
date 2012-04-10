@@ -119,5 +119,6 @@ Libraries::add('app', array('default' => true));
 
 Libraries::add('li3_migration', array('path' => LITHIUM_APP_PATH . '/libraries/li3_ruckusing_migrations'));
 Libraries::add('li3_dateable');
+Libraries::add('li3_less');
 
 ?>

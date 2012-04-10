@@ -11,14 +11,16 @@
 <head>
 	<?php echo $this->html->charset();?>
 	<title>Todo > <?php echo $this->title(); ?></title>
-	<?php echo $this->html->style(array('debug', 'lithium')); ?>
+	<?php echo $this->html->style(array('default')); ?>
 	<?php echo $this->html->script('https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js'); ?>
 	<?php echo $this->scripts(); ?>
 	<?php echo $this->html->link('Icon', null, array('type' => 'icon')); ?>
 </head>
 <body>
-	<div id="container">
-		<?php echo $this->content(); ?>
+	<div id="BodyWrap">
+		<div id="ContentWrap">
+			<?php echo $this->content(); ?>
+		</div>
 	</div>
 </body>
 </html>
