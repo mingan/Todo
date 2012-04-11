@@ -7,7 +7,9 @@
 <ul id="ListTasks">
 <?php
 foreach ($list->tasks as $task) {
-	echo $this->_render('element', '../tasks/view', array('task' => $task));
+	if (!empty($task->id)) {
+		echo $this->_render('element', '../tasks/view', array('task' => $task));
+	}
 }
 ?>
 </ul>

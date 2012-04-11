@@ -29,7 +29,17 @@ $().ready(function () {
 					$Submit.removeAttr('disabled')
 
 					$d = $(data)
-					$('#ListTasks li:not(.completed):last').after($d)
+					lis = $('#ListTasks li')
+					if (!lis.length) {
+						$('#ListTasks').html($d)
+					} else {
+						li = lis.filter(':not(.completed):last')
+						if (!li.length) {
+							li = lis.first().before($d)
+						} else {
+							li.after($d)
+						}
+					}
 					initLinks($d.filter('li'))
 				}
 			})
@@ -40,7 +50,6 @@ $().ready(function () {
 	a($)
 
 	function initLinks (lis) {
-		console.log(lis)
 		lis.find('.complete, .uncomplete').click(function (e) {
 			e.preventDefault()
 
@@ -52,12 +61,28 @@ $().ready(function () {
 					return
 				}
 
+				$('body').css('position', 'relative')
+				offset = $task.offset()
+				target = $('#ListTasks .task:not(.completed):last')
+				next = target.next()
+				if (next.length) {
+					target = next
+				}
+				if (!target.length) {
+					target = $('#ListTasks .task:first')
+				}
+
+				if (target.attr('data-task_id') != $task.attr('data-task_id')) {
+					$task = $task.detach()
+					target.before($task)
+					$task.show()
+				}
 
 				show = 'uncomplete'
 				hide = 'complete'
 				completed = response.data.completed
-
 				$task.toggleClass('completed', completed)
+
 				if (!completed) {
 					tmp = show
 					show = hide
