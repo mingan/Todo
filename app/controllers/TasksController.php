@@ -20,18 +20,25 @@ class TasksController extends \lithium\action\Controller {
 	public function add() {
 		$task = Tasks::create();
 
+		if ($this->request->is('ajax')) {
+			$this->_render['layout'] = 'ajax';
+		}
+
 		if (($this->request->data) && $task->save($this->request->data)) {
-			return $this->redirect($this->request->referer());
+			if ($this->request->is('ajax')) {
+				return $this->render(array(
+					'data' => array('task' => $task),
+					'type' => 'html',
+					'template' => 'view'
+				));
+			}
+			return $this->redirect(array('Lists::view', 'args' => array($task->list_id)));
 		}
 		return compact('task');
 	}
 
 	public function edit() {
 		$task = Tasks::find($this->request->id);
-
-		if ($this->request->is('ajax')) {
-			$this->_render['layout'] = 'ajax';
-		}
 
 		if (!$task) {
 			return $this->redirect($this->request->referer());
@@ -48,7 +55,9 @@ class TasksController extends \lithium\action\Controller {
 				return $this->redirect(array('Lists::view', 'args' => array($task->list_id)));
 			}
 		} else {
-
+			if ($this->request->is('ajax')) {
+				$this->_render['layout'] = 'ajax';
+			}
 			$task->mergeFields();
 		}
 		return compact('task');
@@ -91,7 +100,14 @@ class TasksController extends \lithium\action\Controller {
 			throw new DispatchException($msg);
 		}
 
-		Tasks::find($this->request->id)->delete();
+		if (Tasks::find($this->request->id)->delete()) {
+			if ($this->request->is('ajax')) {
+				return $this->render(array(
+					'data' => array('deleted' => true),
+					'type' => 'json'
+				));
+			}
+		}
 		return $this->redirect($this->request->referer());
 	}
 }

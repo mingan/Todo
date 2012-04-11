@@ -1,111 +1,165 @@
 $().ready(function () {
-	$AT = $('#AddTask')
-	$Desc = $AT.find('#TaskDesc')
+	a = function ($) {
+		$AT = $('#AddTask')
+		$Desc = $AT.find('#TaskDesc')
+		$Submit = $AT.find('input[type=submit]')
 
-	$Desc.focus(function () {
-		if (!$Desc.val()) {
-			$Desc.origHeight = $Desc.height()
-			$Desc.animate({'height' : '10em'})
-		}
-	}).blur(function () {
-		if (!$Desc.val()) {
-			$Desc.animate({'height' : $Desc.origHeight})
-		}
-	})
-
-	$('.complete, .uncomplete').click(function (e) {
-		e.preventDefault()
-
-		var $task = $(this).parent().addClass('loading')
-		$.getJSON($(this).attr('href') + '.json', null, function (response) {
-			$task.removeClass('loading')
-			if (response == null || response.data == undefined) {
-				alert('Error while saving')
-				return
+		$Desc.focus(function () {
+			if (!$Desc.val()) {
+				$Desc.origHeight = $Desc.height()
+				$Desc.animate({'height' : '10em'})
+				$Submit.show()
 			}
-
-
-			show = 'uncomplete'
-			hide = 'complete'
-			completed = response.data.completed
-
-			$task.toggleClass('completed', completed)
-			if (!completed) {
-				tmp = show
-				show = hide
-				hide = tmp
+		}).blur(function () {
+			if (!$Desc.val()) {
+				$Desc.animate({'height' : $Desc.origHeight})
+				$Submit.hide()
 			}
-			$task
-				.find('.' + show)
-					.show()
-				.end()
-				.find('.' + hide)
-					.hide()
-
 		})
-	})
+		$Submit.hide()
+
+		$AT.submit(function (e) {
+			e.preventDefault()
+			$.ajax({
+				'url' : $(this).attr('action'),
+				'data' : $(this).serialize(),
+				'type' : 'POST',
+				'success' : function (data) {
+					$Desc.removeClass('loading').removeAttr('disabled').val('')
+					$Submit.removeAttr('disabled')
+
+					$d = $(data)
+					$('#ListTasks li:not(.completed):last').after($d)
+					initLinks($d.filter('li'))
+				}
+			})
+			$Desc.attr('disabled', 'disabled').addClass('loading')
+			$Submit.attr('disabled', 'disabled')
+		})
+	}
+	a($)
+
+	function initLinks (lis) {
+		console.log(lis)
+		lis.find('.complete, .uncomplete').click(function (e) {
+			e.preventDefault()
+
+			var $task = $(this).parent().addClass('loading')
+			$.getJSON($(this).attr('href') + '.json', null, function (response) {
+				$task.removeClass('loading')
+				if (response == null || response.data == undefined) {
+					alert('Error while saving')
+					return
+				}
 
 
-	$('.edit').click(function (e) {
-		e.preventDefault()
+				show = 'uncomplete'
+				hide = 'complete'
+				completed = response.data.completed
 
-		$edit = $(this).hide()
-		$task = $edit.parents('.task').addClass('loading')
-		$content = $task.find('.content')
-		$editor = $('<div>').addClass('editor').insertAfter($content).hide()
+				$task.toggleClass('completed', completed)
+				if (!completed) {
+					tmp = show
+					show = hide
+					hide = tmp
+				}
+				$task
+					.find('.' + show)
+						.show()
+					.end()
+					.find('.' + hide)
+						.hide()
 
-		$editor.load($edit.attr('href'), null, function () {
-			showEditForm()
+			})
 		})
 
-		function showEditForm () {
-			$content.hide()
-			$editor.show()
-			$task.removeClass('loading')
-			$editor.find('form').submit(function (e) {
-				e.preventDefault()
 
-				$task.addClass('loading')
-				$.ajax({
-					'url' : $(this).attr('action'),
-					'data' : $(this).serialize(),
-					'type' : 'POST',
-					'success' : function (data) {
-						if (data instanceof Object) {
-							$task.removeClass('loading')
-							$content.find('.taskName').text(data.name)
-							$content.find('.taskDesc').text(data.desc)
-							$content.show()
-							$editor.text('')
-						} else {
-							showEditForm()
+		lis.find('.edit').click(function (e) {
+			e.preventDefault()
+
+			$edit = $(this).hide()
+			$task = $edit.parents('.task').addClass('loading')
+			$content = $task.find('.content')
+			$editor = $('<div>').addClass('editor').insertAfter($content).hide()
+
+			$editor.load($edit.attr('href'), null, function () {
+				showEditForm()
+			})
+
+			function showEditForm () {
+				$content.hide()
+				$editor.show()
+				$task.removeClass('loading')
+				$editor.find('form').submit(function (e) {
+					e.preventDefault()
+
+					$task.addClass('loading')
+					$.ajax({
+						'url' : $(this).attr('action'),
+						'data' : $(this).serialize(),
+						'type' : 'POST',
+						'success' : function (data) {
+							if (data instanceof Object) {
+								$task.removeClass('loading')
+								$content.find('.taskName').text(data.name)
+								$content.find('.taskDesc').text(data.desc)
+								$content.show()
+								$editor.text('')
+								$edit.show()
+							} else {
+								showEditForm()
+							}
 						}
-					}
+					})
 				})
+			}
+		})
+
+		lis.find('div.linkForm').each(function () {
+			$t = $(this).css('display', 'inline')
+
+			id = 'LinkForm' + (((1+Math.random())*0x10000000)|0).toString(16)
+			form = $t.find('form').attr('id', id).hide()
+
+			link = $('<a>')
+				.text(form.find('input[type=submit]').val())
+				.attr({'href' : 'javascript:void(0);', 'rel' : id, 'class' : this.className})
+				.click(function (e) {
+					e.preventDefault()
+
+					$('#' + $(this).attr('rel')).submit()
+				})
+			$t.append(link)
+		})
+
+		lis.find('.delete form').submit(function (e) {
+			e.preventDefault()
+
+			$task = $(this).parents('.task').addClass('loading')
+			$.ajax({
+				'url' : $(this).attr('action'),
+				'data' : $(this).serialize(),
+				'type' : 'POST',
+				'success' : function (data) {
+					if (data.deleted) {
+						$task.slideUp(1000, function () {
+							$(this).remove()
+						})
+					}
+				},
+				'complete' : function () {
+					$task.removeClass('loading')
+				}
 			})
-		}
-	})
+		})
 
-	$('div.linkForm').each(function () {
-		$t = $(this).css('display', 'inline')
+		lis
+			.find('.uncomplete').hide().end()
+			.filter('.completed')
+				.find('.complete').hide().end()
+				.find('.uncomplete').show()
+	}
 
-		id = 'LinkForm' + (((1+Math.random())*0x10000000)|0).toString(16)
-		form = $t.find('form').attr('id', id).hide()
+	initLinks($('#ListTasks li'))
 
-		link = $('<a>')
-			.text(form.find('input[type=submit]').val())
-			.attr({'href' : 'javascript:void(0);', 'rel' : id, 'class' : this.className})
-			.click(function (e) {
-				e.preventDefault()
-
-				$('#' + $(this).attr('rel')).submit()
-			})
-		$t.append(link)
-	})
-
-	$('.task')
-		.find('.uncomplete').hide().end()
-		.filter('.completed')
-			.find('.complete').hide().end()
-			.find('.uncomplete').show()
 })
