@@ -18,18 +18,45 @@ class Tasks extends \li3_behaviors\extensions\Model {
 		parent::__init();
 
 		Tasks::applyFilter('save', function ($self, $params, $chain) {
+			$params['data'] = $self::invokeMethod('_separateNameAndDesc', array($params['data']));
+
 			$result = $chain->next($self, $params, $chain);
 
-			if (!empty($params['data']['list_id'])) {
-				$listId = $params['data']['list_id'];
-			} else {
-				$listId = $params['entity']->list_id;
-			}
-			$list = Lists::find('first', array('conditions' => array('id' => $listId)));
-			$list->save();
+			$self::invokeMethod('_updateListModified', array($params));
 
 			return $result;
 		});
+	}
+
+	public static function _updateListModified ($params) {
+		if (!empty($params['data']['list_id'])) {
+			$listId = $params['data']['list_id'];
+		} else {
+			$listId = $params['entity']->list_id;
+		}
+		$list = Lists::find('first', array('conditions' => array('id' => $listId)));
+		return $list->save();
+	}
+
+	public static function _separateNameAndDesc ($data) {
+		if (isset($data['name']) || !isset($data['desc'])) {
+			return $data;
+		}
+
+		$text = explode("\n", $data['desc']);
+
+		$data['name'] = trim(array_shift($text));
+		$data['desc'] = implode("\n", $text);
+
+		return $data;
+	}
+
+	public function mergeFields ($entity) {
+		if (isset($entity->name) && isset($entity->desc)) {
+			$entity->desc = trim($entity->name . "\n" . $entity->desc, "\n");
+		}
+
+		return $entity;
 	}
 }
 

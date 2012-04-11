@@ -2,6 +2,7 @@
 @bckgColor: #6e6e6e;
 @lightText: #eee;
 @lightBckg: #f8f8f8;
+@lining: #333;
 
 .shadow (@blur: 5px) {
 	-webkit-box-shadow: 0px 0px @blur 0px @shadow;
@@ -23,7 +24,7 @@ body {
 	background: @lightText;
 }
 #BodyWrap {
-	margin: 0 50px 0 125px;
+	margin: 1em 50px 1em 50px;
 	border: 1px solid #ffffff;
 	border-width: 0 1px;
 	background: @lightBckg;
@@ -50,7 +51,7 @@ body {
 }
 #ContentWrap {
 	position: relative;
-	width: 100%;
+	padding: 0 1em 1em 1em;
 	min-height: 90%;
 }
 #Menu {
@@ -369,6 +370,24 @@ input[disabled=disabled], textarea[disabled=disabled] {
 	background-image: url('/css/images/loading_horizontal.gif');
 	background-position: center center !important;
 	background-repeat: no-repeat;
+}
+header {
+	padding-top: 1.2em;
+	h2 {
+		margin-top: .2em;
+	}
+}
+.timestamp {
+	font-size: .7em;
+}
+#AddTask {
+	#TaskDesc {
+		width: 100%;
+		border: 1px solid #bbb;
+	}
+}
+.completed {
+	color: #999;
 }
 
 @media all and (min-width: 1100px) {

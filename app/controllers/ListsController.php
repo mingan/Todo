@@ -20,7 +20,7 @@ class ListsController extends \lithium\action\Controller {
 				'conditions' => array(
 					'Lists.id' => $this->request->id
 				),
-				'order' => 'Tasks.completed ASC, Tasks.completed_at DESC, Tasks.created DESC'
+				'order' => 'Tasks.completed ASC, Tasks.completed_at DESC, Tasks.created ASC'
 			)
 		);
 		return compact('list');

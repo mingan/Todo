@@ -29,16 +29,32 @@ class TasksController extends \lithium\action\Controller {
 	public function edit() {
 		$task = Tasks::find($this->request->id);
 
+		if ($this->request->is('ajax')) {
+			$this->_render['layout'] = 'ajax';
+		}
+
 		if (!$task) {
 			return $this->redirect($this->request->referer());
 		}
-		if (($this->request->data) && $task->save($this->request->data)) {
-			return $this->redirect(array('Lists::view', 'args' => array($task->list_id)));
+
+		if (($this->request->data)) {
+			if ($task->save($this->request->data)) {
+				if ($this->request->is('ajax')) {
+					return $this->render(array(
+						'data' => $task->to('array'),
+						'type' => 'json',
+					));
+				}
+				return $this->redirect(array('Lists::view', 'args' => array($task->list_id)));
+			}
+		} else {
+
+			$task->mergeFields();
 		}
 		return compact('task');
 	}
 
-	public function completed () {
+	public function complete () {
 		$task = Tasks::find($this->request->id);
 
 		if (!$task) {
@@ -46,12 +62,15 @@ class TasksController extends \lithium\action\Controller {
 		}
 
 		if ($task->save(array('completed' => true, 'completed_at' => date('c')))) {
-
+			if ($this->request->type() == 'json') {
+				return array('data' => $task);
+			}
 		}
+
 		return $this->redirect(array('Lists::view', 'args' => array($task->list_id)));
 	}
 
-	public function uncompleted () {
+	public function uncomplete () {
 		$task = Tasks::find($this->request->id);
 
 		if (!$task) {
@@ -59,7 +78,9 @@ class TasksController extends \lithium\action\Controller {
 		}
 
 		if ($task->save(array('completed' => false, 'completed_at' => null))) {
-
+			if ($this->request->type() == 'json') {
+				return array('data' => $task);
+			}
 		}
 		return $this->redirect(array('Lists::view', 'args' => array($task->list_id)));
 	}

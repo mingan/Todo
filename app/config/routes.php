@@ -59,6 +59,7 @@ Router::connect('/list/{:id:\d+}', array('Lists::view'));
  */
 // Router::connect('/{:controller}/{:action}/{:id:\d+}.{:type}', array('id' => null));
  Router::connect('/{:controller}/{:action}/{:id:\d+}');
+ Router::connect('/{:controller}/{:action}/{:id:\d+}.{:type}');
 
 
 
