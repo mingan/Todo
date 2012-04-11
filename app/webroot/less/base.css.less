@@ -41,22 +41,19 @@ html {
 body {
   height: 100%;
   background: #fff;
-  color: #444;
+  color: #222;
   line-height: 1.4;
 }
 
 /* this choice of font-family is supposed to render text the same across platforms
  * letter-spacing makes the font a bit more legible
  */
-body, input, button, textarea, select {
-  font-family: "Trebuchet MS", "Geneva CE", lucida, sans-serif;
+body, input, button, textarea, select, pre {
+  .fontFamily();
 }
 h1, h2, h3, h4, h5, h6, legend {
-  font-family: Georgia, "DejaVu Serif", serif;
+  .fontFamily();
   letter-spacing: .1em;
-}
-pre, tt, code, kbd, samp, var {
-  font-family: "Courier New", Courier, monospace;
 }
 
 /* These should be self explanatory
@@ -67,8 +64,6 @@ h3 {font-size: 1.3em;}
 h4 {font-size: 1.2em;}
 h5 {font-size: 1.1em;}
 h6 {font-size: 1em;}
-
-h1, h2, h3, h4, h5 {font-weight: normal;}
 
 /* styling for links and visited links as well as for links in a hovered, focus and active state
  * make sure to keep these rules in that order, with :active being last
@@ -92,7 +87,7 @@ a:hover,a:active {outline: none;}
 /* margin and padding values are reset for all these elements
  * you could remove from there elements you do not used in your documents, but I don't think it'd worth it
  */
-body, p, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, fieldset, legend, input, button, textarea, blockquote, th, td {
+body, p, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, form, fieldset, legend, input, button, textarea, blockquote, th, td {
   margin: 0;
   padding: 0;
 }
@@ -154,12 +149,6 @@ caption {
 th {text-align: center;}
 tbody th {text-align: left;}
 
-/* See Eric Meyer's article about Fixed Monospace Sizing
- * http://meyerweb.com/eric/thoughts/2010/02/12/fixed-monospace-sizing/
- */
-code {color: #06f;}
-code, pre {font-family: "Courier New", monospace, serif; font-size: 1em;}
-
 /* This should be self explanatory
  */
 blockquote, q, em, cite, dfn, i, cite, var, address {
@@ -174,19 +163,6 @@ blockquote p:before, blockquote p:after, q:before, q:after {content: '';}
  */
 th, strong, dt, b {
   font-weight: bold;
-}
-
-ins {
-  text-decoration: none;
-  border-bottom: 3px double #333;
-}
-
-del {text-decoration: line-through;}
-
-abbr,
-acronym {
-  border-bottom: 1px dotted #333;
-  font-variant: normal;
 }
 
 /* These should be self explanatory
@@ -211,7 +187,7 @@ hr {
 /* this is my approach to create white space between elements, you do not have to adhere to it
  * rather than stylling these elements with top and bottom margin, or simply bottom margin I only use top margin
  */
-h1, h2, h3, h4, h5, h6, p, pre, dt, li, hr, address, table {margin-top: 1.2em;}
+h1, h2, h3, h4, h5, h6, p, dt, li, hr, address, table {margin-top: 1.2em;}
 
 /* top padding solution */
 /* this is a different approach which may be less frustrating for novice because it avoids running into collapsing margin and allows to clear floats while preserving space above the element
