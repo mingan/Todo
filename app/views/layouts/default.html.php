@@ -11,7 +11,7 @@
 <head>
 	<?php echo $this->html->charset();?>
 	<title>Todo > <?php echo $this->title(); ?></title>
-	<?php echo $this->html->style(array('default')); ?>
+	<?php echo $this->html->style(array('default.less?')); ?>
 	<?php echo $this->html->script(array('default', 'https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js')); ?>
 	<?php echo $this->scripts(); ?>
 	<?php echo $this->html->link('Icon', null, array('type' => 'icon')); ?>
