@@ -18,4 +18,4 @@
 	url = https://github.com/nateabele/li3_behaviors.git
 [submodule "app/libraries/li3_less"]
 	path = app/libraries/li3_less
-	url = https://github.com/glaszig/li3_less
+	url = https://github.com/Mingan/li3_less.git
