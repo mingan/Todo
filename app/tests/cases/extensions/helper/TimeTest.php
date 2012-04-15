@@ -60,6 +60,11 @@ class TimeTest extends \lithium\test\Unit {
 		// year, months and days
 		$expected = '5 years, 2 months, 6 days ago';
 		$this->assertEqual($expected, $this->time->relative($t - 3600 * 24 * (365 * 5 + 31 * 2 + 6 + 1), array('now' => $t, 'end' => '+10 years')));
+
+		// leap year
+		$t = strtotime('2008-02-29');
+		$expected = '11 months, 4 weeks ago';
+		$this->assertEqual($expected, $this->time->relative($t - 3600 * 24 * (365) + 1000, array('now' => $t, 'end' => '+10 years')));
 	}
 
 }

@@ -11,10 +11,7 @@
 		?>
 		<div class="content">
 			<h2 class="taskName"><?= $task->name ?></h2>
-			<?php if (!empty($task->desc)) {
-				echo '<pre class="taskDesc">' . $h($task->desc) . '</pre>';
-			}
-			?>
+			<pre class="taskDesc"><?=$task->desc?></pre>
 		</div>
 		<div class="links">
 			<?php

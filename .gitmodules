@@ -19,3 +19,6 @@
 [submodule "app/libraries/li3_less"]
 	path = app/libraries/li3_less
 	url = https://github.com/Mingan/li3_less.git
+[submodule "app/libraries/li3_fixtures"]
+	path = app/libraries/li3_fixtures
+	url = https://github.com/daschl/li3_fixtures.git

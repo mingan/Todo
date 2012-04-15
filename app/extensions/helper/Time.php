@@ -43,7 +43,6 @@ class Time extends \lithium\template\Helper {
 			return $t('now');
 		}
 
-		// If more than a week, then take into account the length of months
 		if ($diff >= 604800) {
 			$current = array();
 			$date = array();

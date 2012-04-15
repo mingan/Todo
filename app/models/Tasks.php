@@ -52,8 +52,10 @@ class Tasks extends \li3_behaviors\extensions\Model {
 	}
 
 	public function mergeFields ($entity) {
-		if (isset($entity->name) && isset($entity->desc)) {
+		if (!empty($entity->name) && !empty($entity->desc)) {
 			$entity->desc = trim($entity->name . "\n" . $entity->desc, "\n");
+		} else {
+			$entity->desc = $entity->name;
 		}
 
 		return $entity;

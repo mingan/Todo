@@ -23,12 +23,6 @@
  * @see lithium\util\collection\Filters
  */
 
-if (!isset($_SERVER['ENVIRONMENT'])) {
-	$_SERVER['ENVIRONMENT'] = 'production';
-}
-if (!isset($_SERVER['CONFIG_SOURCE']) || $_SERVER['CONFIG_SOURCE'] != 'Boxfile') {
-	require __DIR__ . '/local.php';
-}
 
 /**
  * The libraries file contains the loading instructions for all plugins, frameworks and other class
@@ -37,6 +31,15 @@ if (!isset($_SERVER['CONFIG_SOURCE']) || $_SERVER['CONFIG_SOURCE'] != 'Boxfile')
  * file also statically loads common classes to improve bootstrap performance.
  */
 require __DIR__ . '/bootstrap/libraries.php';
+
+if (!isset($_SERVER['ENVIRONMENT'])) {
+	$_SERVER['ENVIRONMENT'] = 'production';
+	lithium\core\Environment::set('production');
+}
+if (!isset($_SERVER['CONFIG_SOURCE']) || $_SERVER['CONFIG_SOURCE'] != 'Boxfile') {
+	require __DIR__ . '/local.php';
+	lithium\core\Environment::set('development');
+}
 
 /**
  * The error configuration allows you to use the filter system along with the advanced matching

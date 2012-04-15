@@ -1,5 +1,5 @@
 <?php
-if ($_SERVER['ENVIRONMENT'] == 'development') {
+if (lithium\core\Environment::is('development')) {
 $rows = \app\extensions\Debugger::dump();
 ?>
 <table class="sqlDump">

@@ -70,7 +70,7 @@ use lithium\data\Connections;
  	'encoding' => 'UTF-8'
  ));
 
-if ($_SERVER['ENVIRONMENT'] == 'development') {
+if (lithium\core\Environment::is('development')) {
 	$debugger = new app\extensions\Debugger;
 
 	/**
