@@ -46,6 +46,9 @@ if (!Environment::is('production')) {
 	Router::connect('/test', array('controller' => 'lithium\test\Controller'));
 }
 Router::connect('/list/{:id:\d+}', array('Lists::view'));
+Router::connect('/mu-cfa72d51-006514f0-9bc0208a-b7da8d7a', null, function ($request) {
+	return new \lithium\action\Response(array('body' => 42));
+});
 /**
  * ### Database object routes
  *
@@ -60,6 +63,7 @@ Router::connect('/list/{:id:\d+}', array('Lists::view'));
 // Router::connect('/{:controller}/{:action}/{:id:\d+}.{:type}', array('id' => null));
  Router::connect('/{:controller}/{:action}/{:id:\d+}');
  Router::connect('/{:controller}/{:action}/{:id:\d+}.{:type}');
+
 
 
 
