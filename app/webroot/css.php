@@ -28,27 +28,16 @@ if (!defined('CAKE_CORE_INCLUDE_PATH')) {
 	header('HTTP/1.1 404 Not Found');
 	exit('File Not Found');
 }
-if (!class_exists('File')) {
-	App::uses('File', 'Utility');
-}
 
 define('CACHE_TIMESTAMP_SUFFIX', '_timestamp');
 
-
-	function make_clean_css($path, $name) {
-		App::import('Vendor', 'csspp' . DS . 'csspp');
-		$regs = null;
-		preg_match('#(.*[/\\\\])(.+\.css)$#i', $path, $regs);
-		$csspp = new csspp($regs[2], $regs[1], array('expanders' => false));
-		$output = $csspp->process();
-		return $output;
-	}
 
 	function parse_less ($path, $dest) {
 		if (preg_match('#(.+)\.less$#i', $path, $regs)) {
 			App::import('Vendor', 'lessphp', array('file' => 'lessphp' . DS . 'lessc.inc.php'));
 			try {
-				lessc::ccompile($regs[1] . '.less', $dest);
+				$less = new lessc($regs[1] . '.less');
+				return $less->parse();
 			} catch (exception $ex) {
 				exit('lessc fatal error:<br />'.$ex->getMessage());
 			}
@@ -91,6 +80,8 @@ define('CACHE_TIMESTAMP_SUFFIX', '_timestamp');
 				break;
 		}
 
+		$cachepath = str_replace(array('.', '\\', '/', '?'), '_', $cachepath);
+
 		$cached = Cache::read($cachepath, 'less');
 		$cachedTimestamp = Cache::read($cachepath . CACHE_TIMESTAMP_SUFFIX, 'less');
 		$templateModified = filemtime($filepathWithTimestamp);
@@ -104,9 +95,10 @@ define('CACHE_TIMESTAMP_SUFFIX', '_timestamp');
 				include $phpToExecute;
 				ob_end_flush();
 			} else if ($lessToParse) {
-				parse_less($lessToParse, $filepath);
+				$output = parse_less($lessToParse, $filepath);
+			} else {
+				$output = file_get_contents($filepath);
 			}
-			$output = make_clean_css($filepath, $filename);
 
 			$templateModified = time();
 
