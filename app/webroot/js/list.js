@@ -53,7 +53,7 @@ $().ready(function () {
 			var $task = $(this).parent().addClass('loading')
 			$.getJSON($(this).attr('href') + '.json', null, function (response) {
 				$task.removeClass('loading')
-				if (response == null || response.data == undefined) {
+				if (response == null || response.Task == undefined) {
 					alert('Error while saving')
 					return
 				}
@@ -77,7 +77,7 @@ $().ready(function () {
 
 				show = 'uncomplete'
 				hide = 'complete'
-				completed = response.data.completed
+				completed = response.Task.completed
 				$task.toggleClass('completed', completed)
 
 				if (!completed) {

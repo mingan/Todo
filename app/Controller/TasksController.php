@@ -72,6 +72,43 @@ class TasksController extends AppController {
 		}
 	}
 
+	public function complete () {
+		$this->Task->id = $this->params['named']['id'];
+		if (!$this->Task->exists()) {
+			$this->Session->setFlash(__('Invalid task'));
+			return $this->redirect($this->request->referer());
+		}
+
+		$task = $this->Task->read();
+
+		if ($task = $this->Task->save(array('completed' => true, 'completed_at' => date('c')))) {
+			if ($this->RequestHandler->isAjax()) {
+				$this->set('data', $task);
+				return $this->render('../Elements/json/default');
+			}
+		}
+
+		return $this->redirect(array('Lists::view', 'args' => array($task->list_id)));
+	}
+
+	public function uncomplete () {
+		$this->Task->id = $this->params['named']['id'];
+		if (!$this->Task->exists()) {
+			$this->Session->setFlash(__('Invalid task'));
+			return $this->redirect($this->request->referer());
+		}
+
+		$task = $this->Task->read();
+
+		if ($task = $this->Task->save(array('completed' => false, 'completed_at' => null))) {
+			if ($this->RequestHandler->isAjax()) {
+				$this->set('data', $task);
+				return $this->render('../Elements/json/default');
+			}
+		}
+		return $this->redirect(array('Lists::view', 'args' => array($task->list_id)));
+	}
+
 /**
  * delete method
  *
