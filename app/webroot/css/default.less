@@ -276,6 +276,37 @@ header {
 		width: 100%;
 	}
 }
+#RenameList {
+	display: block;
+	padding: 0;
+	float: right;
+	clear: right;
+	background: url('/css/images/icons.png') -64px -32px no-repeat;
+	width: 32px;
+	height: 32px;
+	overflow: hidden;
+	text-indent: -10em;
+	position: relative;
+	top: -32px;
+	&:hover, &:focus {
+		background-position: -64px 0px;
+	}
+}
+#RenameListForm {
+	margin-top: 2.4em;
+	.input {
+		width: 22em;
+		float: left;
+	}
+	.submit {
+		float: left;
+		clear: right;
+	}
+}
+#ListName.empty:before {
+	content: '[no name]';
+
+}
 .completed {
 	font-size: .7em;
 	color: #666;

@@ -72,6 +72,11 @@ class ListsController extends AppController {
 		}
 		if ($this->request->is('post') || $this->request->is('put')) {
 			if ($this->TodoList->save($this->request->data)) {
+				if ($this->RequestHandler->isAjax()) {
+					$this->set('data', $this->request->data);
+					$this->response->type('json');
+					return $this->render('../Elements/json/default');
+				}
 				$this->Session->setFlash(__('The list has been saved'));
 				$this->redirect(array('action' => 'index'));
 			} else {

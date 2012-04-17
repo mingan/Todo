@@ -184,4 +184,42 @@ $().ready(function () {
 
 	initLinks($('#ListTasks li'))
 
+	$('#RenameList').click(function (e) {
+		e.preventDefault()
+
+		var $RL = $(this)
+
+		var $LN = $('#ListName').removeClass('empty')
+
+		form = $('<form id="RenameListForm" action="' + $RL.attr('href') + '" class="contain">' +
+					'<div class="input text"><input type="text" name="data[TodoList][name]" value="' + $LN.text() + '"></div>' +
+					'<input type="submit" value="OK" class="submit"></form>')
+			.submit(function (e) {
+				e.preventDefault()
+
+				$LN.show().addClass('loading')
+				$(this).hide()
+
+				$.ajax({
+					'url' : $(this).attr('action'),
+					'data' : $(this).serialize(),
+					'type' : 'POST',
+					'success' : function (data) {
+						$LN.text(data.TodoList.name)
+						if (!data.TodoList.name) {
+							$LN.addClass('noName')
+						}
+						$(this).remove()
+					},
+					'complete' : function () {
+						$LN.removeClass('loading')
+						$RL.show();
+					}
+				})
+			})
+
+		$LN.after(form).hide()
+		$RL.hide()
+	})
+
 })
