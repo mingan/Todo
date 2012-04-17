@@ -56,4 +56,57 @@ class Task extends AppModel {
 			'order' => ''
 		)
 	);
+
+	public function beforeValidate($options = array()) {
+		parent::beforeValidate($options);
+
+		$this->data = $this->separateFields($this->data);
+
+		return $this->data;
+	}
+
+	public function afterFind($results, $primary = false) {
+		parent::afterFind($results, $primary);
+
+		foreach ($results as &$r) {
+			$r = $this->mergeFields($r);
+			unset($r);
+		}
+
+		return $results;
+	}
+
+
+	public function separateFields ($data) {
+		if (!isset($data['Task']['complete'])) {
+			return $data;
+		}
+
+		$text = explode(PHP_EOL, $data['Task']['complete']);
+
+		$data['Task']['name'] = trim(array_shift($text));
+		$data['Task']['desc'] = implode(PHP_EOL, $text);
+
+		return $data;
+	}
+
+	public function mergeFields ($data) {
+		if (!empty($data['Task']['name']) && !empty($data['Task']['name'])) {
+			$data['Task']['complete'] = trim($data['Task']['name'] . PHP_EOL . $data['Task']['desc'], PHP_EOL);
+		} else {
+			$data['Task']['complete'] = $data['Task']['name'];
+		}
+
+		return $data;
+	}
+
+	public function simple ($id) {
+		return $this->find(
+			'first',
+			array(
+				'conditions' => array('id' => $id),
+				'recursive' => -1
+			)
+		);
+	}
 }

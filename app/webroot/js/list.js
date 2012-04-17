@@ -99,10 +99,10 @@ $().ready(function () {
 		lis.find('.edit').click(function (e) {
 			e.preventDefault()
 
-			$edit = $(this).hide()
-			$task = $edit.parents('.task').addClass('loading')
-			$content = $task.find('.content')
-			$editor = $('<div>').addClass('editor').insertAfter($content).hide()
+			var $edit = $(this).hide()
+			var $task = $edit.parents('.task').addClass('loading')
+			var $content = $task.find('.content')
+			var $editor = $('<div>').addClass('editor').insertAfter($content).hide()
 
 			$editor.load($edit.attr('href'), null, function () {
 				showEditForm()
@@ -123,8 +123,8 @@ $().ready(function () {
 						'success' : function (data) {
 							if (data instanceof Object) {
 								$task.removeClass('loading')
-								$content.find('.taskName').text(data.name)
-								$content.find('.taskDesc').text(data.desc)
+								$content.find('.taskName').text(data.Task.name)
+								$content.find('.taskDesc').text(data.Task.desc)
 								$content.show()
 								$editor.text('')
 								$edit.show()

@@ -3,8 +3,8 @@ if (isset($task)) {
 	$task = $task;
 }
 
-echo $this->Html->link('✔', array('controller' => 'tasks', 'action' => 'complete', 'id' => $task['id']), array('class' => 'complete', 'title' => __('Complete')));
-echo $this->Html->link('✔', array('controller' => 'tasks', 'action' => 'uncomplete', 'id' => $task['id']), array('class' => 'uncomplete', 'title' => __('Uncomplete')));
+echo $this->Html->link('✔', array('controller' => 'tasks', 'action' => 'complete', $task['id']), array('class' => 'complete', 'title' => __('Complete')));
+echo $this->Html->link('✔', array('controller' => 'tasks', 'action' => 'uncomplete', $task['id']), array('class' => 'uncomplete', 'title' => __('Uncomplete')));
 ?>
 <div class="content">
 	<h2 class="taskName"><?php echo h($task['name']) ?></h2>
@@ -12,8 +12,8 @@ echo $this->Html->link('✔', array('controller' => 'tasks', 'action' => 'uncomp
 </div>
 <div class="links">
 	<?php
-	echo $this->Html->link(__('Edit'), array('controller' => 'tasks', 'action' => 'edit', 'id' => $task['id']), array('class' => 'edit', 'title' => __('Edit')));
-	echo $this->Form->postLink(__('Delete'), array('controller' => 'tasks', 'action' => 'delete', 'id' => $task['id']), array('class' => 'delete', 'title' => __('Delete')));
+	echo $this->Html->link(__('Edit'), array('controller' => 'tasks', 'action' => 'edit', $task['id']), array('class' => 'edit', 'title' => __('Edit')));
+	echo $this->Form->postLink(__('Delete'), array('controller' => 'tasks', 'action' => 'delete', $task['id']), array('class' => 'delete', 'title' => __('Delete')));
 	?>
 </div>
 

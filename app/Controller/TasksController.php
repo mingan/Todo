@@ -58,22 +58,32 @@ class TasksController extends AppController {
 	public function edit($id = null) {
 		$this->Task->id = $id;
 		if (!$this->Task->exists()) {
-			throw new NotFoundException(__('Invalid task'));
+			return $this->redirect($this->request->referer());
 		}
+
 		if ($this->request->is('post') || $this->request->is('put')) {
 			if ($this->Task->save($this->request->data)) {
+				if ($this->RequestHandler->isAjax()) {
+					$this->set('data', $this->Task->simple($id));
+					$this->response->type('json');
+					return $this->render('../Elements/json/default');
+				}
 				$this->Session->setFlash(__('The task has been saved'));
-				$this->redirect(array('action' => 'index'));
+				//return $this->redirect(array('view', $task['Task']['id']));
 			} else {
 				$this->Session->setFlash(__('The task could not be saved. Please, try again.'));
 			}
 		} else {
-			$this->request->data = $this->Task->read(null, $id);
+			$this->request->data = $this->Task->simple($id);
+
+			if ($this->RequestHandler->isAjax()) {
+				$this->layout = 'ajax';
+			}
 		}
 	}
 
-	public function complete () {
-		$this->Task->id = $this->params['named']['id'];
+	public function complete ($id) {
+		$this->Task->id = $id;
 		if (!$this->Task->exists()) {
 			$this->Session->setFlash(__('Invalid task'));
 			return $this->redirect($this->request->referer());
@@ -88,11 +98,11 @@ class TasksController extends AppController {
 			}
 		}
 
-		return $this->redirect(array('Lists::view', 'args' => array($task->list_id)));
+		return $this->redirect(array('view', $task['Task']['id']));
 	}
 
-	public function uncomplete () {
-		$this->Task->id = $this->params['named']['id'];
+	public function uncomplete ($id) {
+		$this->Task->id = $id;
 		if (!$this->Task->exists()) {
 			$this->Session->setFlash(__('Invalid task'));
 			return $this->redirect($this->request->referer());
@@ -106,7 +116,7 @@ class TasksController extends AppController {
 				return $this->render('../Elements/json/default');
 			}
 		}
-		return $this->redirect(array('Lists::view', 'args' => array($task->list_id)));
+		return $this->redirect(array('view', $task['Task']['id']));
 	}
 
 /**
