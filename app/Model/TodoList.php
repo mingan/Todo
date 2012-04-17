@@ -6,6 +6,8 @@ App::uses('AppModel', 'Model');
  * @property Task $Task
  */
 class TodoList extends AppModel {
+	public $name = 'List';
+
 /**
  * Display field
  *
@@ -53,4 +55,5 @@ class TodoList extends AppModel {
 		)
 	);
 
+	public $actsAs = array('Containable');
 }

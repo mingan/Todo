@@ -11,14 +11,14 @@
 	<?php
 	foreach ($lists as $list): ?>
 	<tr>
-		<td><?php echo h($list['List']['name']); ?>&nbsp;</td>
-		<td><?php echo h($list['List']['created']); ?>&nbsp;</td>
-		<td><?php echo h($list['List']['modified']); ?>&nbsp;</td>
-		<td><?php echo h($list['List']['id']); ?>&nbsp;</td>
+		<td><?php echo h($list['TodoList']['name']); ?>&nbsp;</td>
+		<td><?php echo h($list['TodoList']['created']); ?>&nbsp;</td>
+		<td><?php echo h($list['TodoList']['modified']); ?>&nbsp;</td>
+		<td><?php echo h($list['TodoList']['id']); ?>&nbsp;</td>
 		<td class="actions">
-			<?php echo $this->Html->link(__('View'), array('action' => 'view', $list['List']['id'])); ?>
-			<?php echo $this->Html->link(__('Edit'), array('action' => 'edit', $list['List']['id'])); ?>
-			<?php echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $list['List']['id']), null, __('Are you sure you want to delete # %s?', $list['List']['id'])); ?>
+			<?php echo $this->Html->link(__('View'), array('action' => 'view', $list['TodoList']['id'])); ?>
+			<?php echo $this->Html->link(__('Edit'), array('action' => 'edit', $list['TodoList']['id'])); ?>
+			<?php echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $list['TodoList']['id']), null, __('Are you sure you want to delete # %s?', $list['TodoList']['id'])); ?>
 		</td>
 	</tr>
 <?php endforeach; ?>

@@ -6,7 +6,7 @@ App::uses('AppController', 'Controller');
  * @property List $List
  */
 class ListsController extends AppController {
-
+	public $uses = array('TodoList');
 
 /**
  * index method
@@ -14,7 +14,7 @@ class ListsController extends AppController {
  * @return void
  */
 	public function index() {
-		$this->List->recursive = 0;
+		$this->TodoList->recursive = 0;
 		$this->set('lists', $this->paginate());
 	}
 
@@ -25,11 +25,21 @@ class ListsController extends AppController {
  * @return void
  */
 	public function view($id = null) {
-		$this->List->id = $id;
-		if (!$this->List->exists()) {
+		$this->TodoList->id = $id;
+		if (!$this->TodoList->exists()) {
 			throw new NotFoundException(__('Invalid list'));
 		}
-		$this->set('list', $this->List->read(null, $id));
+		$this->set('list', $this->TodoList->find(
+			'first',
+			array(
+				'conditions' => array('id' => $id),
+				'contain' => array(
+					'Task' => array(
+						'order' => 'completed ASC, completed_at DESC, created ASC',
+					)
+				)
+			)
+		));
 	}
 
 /**
@@ -39,8 +49,8 @@ class ListsController extends AppController {
  */
 	public function add() {
 		if ($this->request->is('post')) {
-			$this->List->create();
-			if ($this->List->save($this->request->data)) {
+			$this->TodoList->create();
+			if ($this->TodoList->save($this->request->data)) {
 				$this->Session->setFlash(__('The list has been saved'));
 				$this->redirect(array('action' => 'index'));
 			} else {
@@ -56,19 +66,19 @@ class ListsController extends AppController {
  * @return void
  */
 	public function edit($id = null) {
-		$this->List->id = $id;
-		if (!$this->List->exists()) {
+		$this->TodoList->id = $id;
+		if (!$this->TodoList->exists()) {
 			throw new NotFoundException(__('Invalid list'));
 		}
 		if ($this->request->is('post') || $this->request->is('put')) {
-			if ($this->List->save($this->request->data)) {
+			if ($this->TodoList->save($this->request->data)) {
 				$this->Session->setFlash(__('The list has been saved'));
 				$this->redirect(array('action' => 'index'));
 			} else {
 				$this->Session->setFlash(__('The list could not be saved. Please, try again.'));
 			}
 		} else {
-			$this->request->data = $this->List->read(null, $id);
+			$this->request->data = $this->TodoList->read(null, $id);
 		}
 	}
 
@@ -82,11 +92,11 @@ class ListsController extends AppController {
 		if (!$this->request->is('post')) {
 			throw new MethodNotAllowedException();
 		}
-		$this->List->id = $id;
-		if (!$this->List->exists()) {
+		$this->TodoList->id = $id;
+		if (!$this->TodoList->exists()) {
 			throw new NotFoundException(__('Invalid list'));
 		}
-		if ($this->List->delete()) {
+		if ($this->TodoList->delete()) {
 			$this->Session->setFlash(__('List deleted'));
 			$this->redirect(array('action' => 'index'));
 		}
