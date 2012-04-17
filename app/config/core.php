@@ -19,6 +19,10 @@
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
 
+if (!isset($_SERVER['CONFIG_SOURCE']) || $_SERVER['CONFIG_SOURCE'] != 'Boxfile') {
+	require __DIR__ . '/local.php';
+}
+
 /**
  * CakePHP Debug Level:
  *
@@ -184,12 +188,12 @@
 /**
  * A random string used in security hashing methods.
  */
-	Configure::write('Security.salt', 'DYhG93b0qyJfIxfs2guVoUubWwvniR2G0FgaC9mi');
+	Configure::write('Security.salt', 'R2G0FgvniguVoC9ma93b0yJfIxfs2qDYhGUubWwi');
 
 /**
  * A random numeric string (digits only) used to encrypt/decrypt strings.
  */
-	Configure::write('Security.cipherSeed', '76859309657453542496749683645');
+	Configure::write('Security.cipherSeed', '6453096749599635426837455768');
 
 /**
  * Apply timestamps with the last modified time to static assets (js, css, images).
@@ -226,7 +230,7 @@
 	Configure::write('Acl.database', 'default');
 
 /**
- * Uncomment this line and correct your server timezone to fix 
+ * Uncomment this line and correct your server timezone to fix
  * any date & time related errors.
  */
 	//date_default_timezone_set('UTC');
@@ -236,7 +240,7 @@
  * If running via cli - apc is disabled by default. ensure it's available and enabled in this case
  *
  * Note: 'default' and other application caches should be configured in app/Config/bootstrap.php.
- *       Please check the comments in boostrap.php for more info on the cache engines available 
+ *       Please check the comments in boostrap.php for more info on the cache engines available
  *       and their setttings.
  */
 $engine = 'File';
@@ -251,7 +255,7 @@ if (Configure::read('debug') >= 1) {
 }
 
 // Prefix each application on the same server with a different string, to avoid Memcache and APC conflicts.
-$prefix = 'myapp_';
+$prefix = 'todo_';
 
 /**
  * Configure the cache used for general framework caching.  Path information,
