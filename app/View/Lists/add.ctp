@@ -1,17 +1,12 @@
 <div class="lists form">
-<?php echo $this->Form->create('List');?>
-	<fieldset>
-		<legend><?php echo __('Add List'); ?></legend>
-	<?php
-		echo $this->Form->input('name');
-	?>
-	</fieldset>
-<?php echo $this->Form->end(__('Submit'));?>
-</div>
-<div class="actions">
-	<h3><?php echo __('Actions'); ?></h3>
-	<ul>
-
-		<li><?php echo $this->Html->link(__('List Lists'), array('action' => 'index'));?></li>
-	</ul>
+	<h1><?php echo __('Create new list'); ?></h1>
+<?php
+echo $this->Form->create('TodoList');
+echo $this->Form->input('name');
+echo '<h2>' . __('Tasks') . '</h2>';
+for ($i = 0; $i < 3; $i++) {
+	echo $this->Form->input('Task.' . $i . '.complete', array('type' => 'textarea', 'label' => false, 'class' => 'taskDesc'));
+}
+echo $this->Form->end(__('Save'));
+ ?>
 </div>

@@ -46,7 +46,6 @@ body {
 	width: 70%;
 }
 .message {
-	background: #ffffff url('/css/admin/images/information-bw.png') 50px 50% no-repeat;
 	border: 1px solid #dddddd;
 	border-width: 1px 0;
 	padding: 2em 100px;
@@ -54,7 +53,8 @@ body {
 	color: black;
 }
 .message:hover {
-	background-image: url('/css/admin/images/information.png');
+	background-color: #ddd;
+	border-color: #aaa;
 }
 table {
 	width: 100%;
@@ -106,6 +106,15 @@ legend {
 		outline: none;
 		border-color: @shadow;
 		.shadow;
+	}
+	.error-message {
+		float: left;
+		clear: right;
+		color: @brightTextColour;
+		line-height: 2.4em;
+		min-height: 2em;
+		padding-top: .25em;
+		margin-left: 1em;
 	}
 	.form-error:focus, .form-error:hover {
 		border-color: #d45e5e;

@@ -41,8 +41,12 @@ class TasksController extends AppController {
 		if ($this->request->is('post')) {
 			$this->Task->create();
 			if ($this->Task->save($this->request->data)) {
-				$this->Session->setFlash(__('The task has been saved'));
-				$this->redirect(array('action' => 'index'));
+				if ($this->RequestHandler->isAjax()) {
+					$this->layout = 'default';
+				} else {
+					$this->Session->setFlash(__('The task has been saved'));
+				}
+				return $this->redirect(array('action' => 'view', $this->Task->id));
 			} else {
 				$this->Session->setFlash(__('The task could not be saved. Please, try again.'));
 			}
@@ -63,8 +67,9 @@ class TasksController extends AppController {
 
 		if ($this->request->is('post') || $this->request->is('put')) {
 			if ($this->Task->save($this->request->data)) {
+				$task = $this->Task->simple($id);
 				if ($this->RequestHandler->isAjax()) {
-					$this->set('data', $this->Task->simple($id));
+					$this->set('data', $task);
 					$this->response->type('json');
 					return $this->render('../Elements/json/default');
 				}

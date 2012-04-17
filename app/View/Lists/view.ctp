@@ -4,18 +4,15 @@
 	<ul id="ListTasks">
 	<?php
 	foreach ($list['Task'] as $task) {
-		$class = 'task contain';
-		if ($task['completed']) {
-			$class .= ' completed';
-		}
-		?>
-		<li data-task_id="<?php echo $task['id'] ?>" class="<?php echo $class ?>">
-		<?php
 		echo $this->element('../Tasks/view', array('task' => $task));
-		?>
-		</li>
-		<?php
 	}
 	?>
 	</ul>
+
+	<div id="NewTask">
+		<h2><?php echo __('New task')?></h2>
+		<?php echo $this->element('../Tasks/add', array('listId' => $list['TodoList']['id'])) ?>
+	</div>
 </div>
+
+<?php echo $this->Html->script('list', array('inline' => false)); ?>

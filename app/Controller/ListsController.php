@@ -50,9 +50,9 @@ class ListsController extends AppController {
 	public function add() {
 		if ($this->request->is('post')) {
 			$this->TodoList->create();
-			if ($this->TodoList->save($this->request->data)) {
+			if ($this->TodoList->saveAll($this->TodoList->filterTasks($this->request->data))) {
 				$this->Session->setFlash(__('The list has been saved'));
-				$this->redirect(array('action' => 'index'));
+				$this->redirect(array('action' => 'view', $this->TodoList->id));
 			} else {
 				$this->Session->setFlash(__('The list could not be saved. Please, try again.'));
 			}

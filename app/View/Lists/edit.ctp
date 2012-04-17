@@ -1,5 +1,5 @@
 <div class="lists form">
-<?php echo $this->Form->create('List');?>
+<?php echo $this->Form->create('TodoList');?>
 	<fieldset>
 		<legend><?php echo __('Edit List'); ?></legend>
 	<?php

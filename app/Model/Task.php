@@ -109,4 +109,15 @@ class Task extends AppModel {
 			)
 		);
 	}
+
+	public function isSaveable ($data) {
+		if (isset($data['Task'])) {
+			$data = $data['Task'];
+		}
+		if (!empty($data['complete']) || !empty($data['name'])) {
+			return true;
+		}
+
+		return false;
+	}
 }
