@@ -1,43 +1,96 @@
 <?php
 /**
- * Lithium: the most rad php framework
+ * Index
  *
- * @copyright     Copyright 2011, Union of RAD (http://union-of-rad.org)
- * @license       http://opensource.org/licenses/bsd-license.php The BSD License
+ * The Front Controller for handling every request
+ *
+ * PHP 5
+ *
+ * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
+ * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ *
+ * Licensed under The MIT License
+ * Redistributions of files must retain the above copyright notice.
+ *
+ * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @link          http://cakephp.org CakePHP(tm) Project
+ * @package       app.webroot
+ * @since         CakePHP(tm) v 0.2.9
+ * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
+ */
+/**
+ * Use the DS to separate the directories in other defines
+ */
+	if (!defined('DS')) {
+		define('DS', DIRECTORY_SEPARATOR);
+	}
+/**
+ * These defines should only be edited if you have cake installed in
+ * a directory layout other than the way it is distributed.
+ * When using custom settings be sure to use the DS and do not add a trailing DS.
  */
 
 /**
- * Welcome to Lithium! This front-controller file is the gateway to your application. It is
- * responsible for intercepting requests, and handing them off to the `Dispatcher` for processing.
+ * The full path to the directory which holds "app", WITHOUT a trailing DS.
  *
- * @see lithium\action\Dispatcher
-*/
+ */
+	if (!defined('ROOT')) {
+		define('ROOT', dirname(dirname(dirname(__FILE__))));
+	}
+/**
+ * The actual directory name for the "app".
+ *
+ */
+	if (!defined('APP_DIR')) {
+		define('APP_DIR', basename(dirname(dirname(__FILE__))));
+	}
 
 /**
- * If you're sharing a single Lithium core install or other libraries among multiple
- * applications, you may need to manually set things like `LITHIUM_LIBRARY_PATH`. You can do that in
- * `config/bootstrap.php`, which is loaded below:
+ * The absolute path to the "cake" directory, WITHOUT a trailing DS.
+ *
+ * Un-comment this line to specify a fixed path to CakePHP.
+ * This should point at the directory containing `Cake`.
+ *
+ * For ease of development CakePHP uses PHP's include_path.  If you
+ * cannot modify your include_path set this value.
+ *
+ * Leaving this constant undefined will result in it being defined in Cake/bootstrap.php
  */
-require dirname(__DIR__) . '/config/bootstrap.php';
+	//define('CAKE_CORE_INCLUDE_PATH', ROOT . DS . 'lib');
 
 /**
- * The following will instantiate a new `Request` object and pass it off to the `Dispatcher` class.
- * By default, the `Request` will automatically aggregate all the server / environment settings, URL
- * and query string parameters, request content (i.e. POST or PUT data), and HTTP method and header
- * information.
+ * Editing below this line should NOT be necessary.
+ * Change at your own risk.
  *
- * The `Request` is then used by the `Dispatcher` (in conjunction with the `Router`) to determine
- * the correct `Controller` object to dispatch to, and the correct response type to render. The
- * response information is then encapsulated in a `Response` object, which is returned from the
- * controller to the `Dispatcher`, and finally echoed below. Echoing a `Response` object causes its
- * headers to be written, and its response body to be written in a buffer loop.
- *
- * @see lithium\action\Request
- * @see lithium\action\Response
- * @see lithium\action\Dispatcher
- * @see lithium\net\http\Router
- * @see lithium\action\Controller
  */
-echo lithium\action\Dispatcher::run(new lithium\action\Request());
+	if (!defined('WEBROOT_DIR')) {
+		define('WEBROOT_DIR', basename(dirname(__FILE__)));
+	}
+	if (!defined('WWW_ROOT')) {
+		define('WWW_ROOT', dirname(__FILE__) . DS);
+	}
 
-?>
+	if (!defined('CAKE_CORE_INCLUDE_PATH')) {
+		if (function_exists('ini_set')) {
+			ini_set('include_path', ROOT . DS . 'lib' . PATH_SEPARATOR . ini_get('include_path'));
+		}
+		if (!include('Cake' . DS . 'bootstrap.php')) {
+			$failed = true;
+		}
+	} else {
+		if (!include(CAKE_CORE_INCLUDE_PATH . DS . 'Cake' . DS . 'bootstrap.php')) {
+			$failed = true;
+		}
+	}
+	if (!empty($failed)) {
+		trigger_error("CakePHP core could not be found.  Check the value of CAKE_CORE_INCLUDE_PATH in APP/webroot/index.php.  It should point to the directory containing your " . DS . "cake core directory and your " . DS . "vendors root directory.", E_USER_ERROR);
+	}
+
+	if (isset($_SERVER['PATH_INFO']) && $_SERVER['PATH_INFO'] == '/favicon.ico') {
+		return;
+	}
+
+	App::uses('Dispatcher', 'Routing');
+
+	$Dispatcher = new Dispatcher();
+	$Dispatcher->dispatch(new CakeRequest(), new CakeResponse(array('charset' => Configure::read('App.encoding'))));

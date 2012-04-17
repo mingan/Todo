@@ -1,18 +1,16 @@
 web1:
   name: todo
   shared_writable_dirs:
-    - app/resources
-    - app/libraries/ruckusing-migrations/logs
-    - app/resources/g11n
-  document_root: app/webroot
-  php_version: 5.3.8
+    - app/tmp
+  document_root: /app/webroot
   php_extensions:
-    - eaccelerator
-    - mysql
+    - mcrypt
+    - mysqli
+    - mbstring
     - pdo_mysql
   php_date_timezone: "Europe/Prague"
   before_deploy:
-    - "libraries/lithium/console/li3 migration db:migrate"
+    - "libs/Cake/Console/cake schema run update"
 
 db1: #component type & number
   name: base

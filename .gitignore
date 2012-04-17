@@ -1,6 +1,5 @@
 .DS_Store
-app/resources/tmp/*
+app/tmp/*
 .*.sw[op]
 /nbproject/*
-/app/config/local.php
-/app/webroot/less/*.css
+/app/Config/local.php
