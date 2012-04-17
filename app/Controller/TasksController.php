@@ -69,7 +69,7 @@ class TasksController extends AppController {
 					return $this->render('../Elements/json/default');
 				}
 				$this->Session->setFlash(__('The task has been saved'));
-				//return $this->redirect(array('view', $task['Task']['id']));
+				return $this->redirect(array('view', $task['Task']['id']));
 			} else {
 				$this->Session->setFlash(__('The task could not be saved. Please, try again.'));
 			}
@@ -131,13 +131,20 @@ class TasksController extends AppController {
 		}
 		$this->Task->id = $id;
 		if (!$this->Task->exists()) {
-			throw new NotFoundException(__('Invalid task'));
+			$this->Session->setFlash(__('Invalid task'));
+			return $this->redirect($this->request->referer());
 		}
+
 		if ($this->Task->delete()) {
+			if ($this->RequestHandler->isAjax()) {
+				$this->set('data', array('deleted' => true));
+				$this->response->type('json');
+				return $this->render('../Elements/json/default');
+			}
 			$this->Session->setFlash(__('Task deleted'));
-			$this->redirect(array('action' => 'index'));
+			return $this->redirect($this->request->referer());
 		}
 		$this->Session->setFlash(__('Task was not deleted'));
-		$this->redirect(array('action' => 'index'));
+		return $this->redirect($this->request->referer());
 	}
 }

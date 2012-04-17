@@ -13,7 +13,10 @@ echo $this->Html->link('✔', array('controller' => 'tasks', 'action' => 'uncomp
 <div class="links">
 	<?php
 	echo $this->Html->link(__('Edit'), array('controller' => 'tasks', 'action' => 'edit', $task['id']), array('class' => 'edit', 'title' => __('Edit')));
-	echo $this->Form->postLink(__('Delete'), array('controller' => 'tasks', 'action' => 'delete', $task['id']), array('class' => 'delete', 'title' => __('Delete')));
+	echo '<div class="delete linkForm">';
+		echo $this->Form->create('Task', array('url' => array('controller' => 'tasks', 'action' => 'delete', $task['id'])));
+		echo $this->Form->end(__('Delete'));
+	echo '</div>';
 	?>
 </div>
 
