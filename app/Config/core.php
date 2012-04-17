@@ -212,7 +212,7 @@ if (!isset($_SERVER['CONFIG_SOURCE']) || $_SERVER['CONFIG_SOURCE'] != 'Boxfile')
  *
  * To use, prefix the CSS link URL with '/ccss/' instead of '/css/' or use HtmlHelper::css().
  */
-	//Configure::write('Asset.filter.css', 'css.php');
+	Configure::write('Asset.filter.css', 'css.php');
 
 /**
  * Plug in your own custom JavaScript compressor by dropping a script in your webroot to handle the
@@ -277,6 +277,14 @@ Cache::config('_cake_model_', array(
 	'engine' => $engine,
 	'prefix' => $prefix . 'cake_model_',
 	'path' => CACHE . 'models' . DS,
+	'serialize' => ($engine === 'File'),
+	'duration' => $duration
+));
+
+Cache::config('less', array(
+	'engine' => $engine,
+	'prefix' => $prefix . 'less_',
+	'path' => CACHE . 'less' . DS,
 	'serialize' => ($engine === 'File'),
 	'duration' => $duration
 ));
