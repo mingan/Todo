@@ -5,6 +5,7 @@ web1:
   document_root: /app/webroot
   php_extensions:
     - apc
+    - memcached
     - mcrypt
     - mysqli
     - mbstring
