@@ -4,7 +4,7 @@ web1:
     - app/tmp
   document_root: /app/webroot
   php_extensions:
-    - app
+    - apc
     - mcrypt
     - mysqli
     - mbstring
