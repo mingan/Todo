@@ -94,15 +94,27 @@ if (!empty($_SERVER['MEMCACHED_HOST'])) {
 			$_SERVER['MEMCACHED_HOST_4']
 		),
 	));
+	Cache::config('default', array(
+		'engine' => 'Memcache',
+		'servers' => array(
+			$_SERVER['MEMCACHED_HOST'],
+			$_SERVER['MEMCACHED_HOST_2'],
+			$_SERVER['MEMCACHED_HOST_3'],
+			$_SERVER['MEMCACHED_HOST_4']
+		),
+		'prefix' => 'sess_'
+	));
 
 } else {
 	Cache::config('views', array(
 		'engine' => 'File',
 		'path' => CACHE . 'views' . DS
 	));
+	Cache::config('default', array(
+		'engine' => 'File',
+		'path' => CACHE . 'default' . DS
+	));
 }
-
-Cache::config('default', array('engine' => 'File'));
 
 /**
  * The settings below can be used to set additional paths to models, views and controllers.
