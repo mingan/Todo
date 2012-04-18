@@ -15,11 +15,14 @@
 	?>
 </head>
 <body>
-	<div id="BodyWrap">
+	<div id="BodyWrap" class="contain">
 		<div id="ContentWrap">
 			<?php echo $this->Session->flash(); ?>
 
 			<?php echo $this->fetch('content'); ?>
+		</div>
+		<div id="Sidebar">
+			<?php echo $this->fetch('sidebar'); ?>
 		</div>
 	</div>
 	<?php echo $this->element('sql_dump'); ?>

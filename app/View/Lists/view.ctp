@@ -35,3 +35,16 @@
 </div>
 
 <?php echo $this->Html->script('list', array('inline' => false)); ?>
+
+<?php
+$this->start('sidebar');
+?>
+<h2><?php echo __('Your URL'); ?></h2>
+<div class="url"><?php echo $this->Html->link(Router::url(array('controller' => 'lists', 'action' => 'view', $list['TodoList']['hash']), true)); ?></div>
+
+<h2><?php echo __('URL for sharing'); ?></h2>
+<div class="url"><?php echo $this->Html->link(Router::url(array('controller' => 'lists', 'action' => 'view', $list['TodoList']['public_hash']), true)); ?></div>
+<p><?php echo __('You can use this URL if you want to share your list but don\'t want people to change it.'); ?></p>
+<?php
+$this->end();
+?>
