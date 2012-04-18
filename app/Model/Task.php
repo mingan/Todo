@@ -48,8 +48,8 @@ class Task extends AppModel {
  * @var array
  */
 	public $belongsTo = array(
-		'List' => array(
-			'className' => 'List',
+		'TodoList' => array(
+			'className' => 'TodoList',
 			'foreignKey' => 'list_id',
 			'conditions' => '',
 			'fields' => '',
@@ -61,6 +61,7 @@ class Task extends AppModel {
 		parent::beforeValidate($options);
 
 		$this->data = $this->separateFields($this->data);
+		$this->data = $this->getList($this->data);
 
 		return $this->data;
 	}
@@ -76,6 +77,17 @@ class Task extends AppModel {
 		return $results;
 	}
 
+	public function getList ($data) {
+		if (!empty($data['Task']['list_id']) || empty($data['Task']['list_hash'])) {
+			return $data;
+		}
+
+		$this->TodoList->recursive = -1;
+		$list = $this->TodoList->findByHash($data['Task']['list_hash']);
+		$data['Task']['list_id'] = $list['TodoList']['id'];
+
+		return $data;
+	}
 
 	public function separateFields ($data) {
 		if (!isset($data['Task']['complete'])) {

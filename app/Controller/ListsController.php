@@ -24,16 +24,17 @@ class ListsController extends AppController {
  * @param string $id
  * @return void
  */
-	public function view($hash = null) {
+	public function share($hash = null) {
 		$list = $this->TodoList->findWithTasks(array('public_hash' => $hash));
 		if (empty($list)) {
 			throw new NotFoundException(__('Invalid list'));
 		}
 		$private = false;
 		$this->set(compact('list', 'private'));
+		$this->render('view');
 	}
 
-	public function admin($hash = null) {
+	public function view($hash = null) {
 		$list = $this->TodoList->findWithTasks(array('hash' => $hash));
 		if (empty($list)) {
 			throw new NotFoundException(__('Invalid list'));
@@ -53,7 +54,7 @@ class ListsController extends AppController {
 			$this->TodoList->create();
 			if ($this->TodoList->saveAll($this->TodoList->filterTasks($this->request->data))) {
 				$this->Session->setFlash(__('The list has been saved'));
-				$this->redirect(array('action' => 'view', $this->TodoList->id));
+				$this->redirect(array('action' => 'view', $this->TodoList->field('hash')));
 			} else {
 				$this->Session->setFlash(__('The list could not be saved. Please, try again.'));
 			}
@@ -63,14 +64,15 @@ class ListsController extends AppController {
 /**
  * edit method
  *
- * @param string $id
+ * @param string $hash
  * @return void
  */
-	public function edit($id = null) {
-		$this->TodoList->id = $id;
-		if (!$this->TodoList->exists()) {
+	public function edit($hash = null) {
+		$list = $this->TodoList->findByHash($hash);
+		if (empty($list)) {
 			throw new NotFoundException(__('Invalid list'));
 		}
+		$this->request->data['TodoList']['id'] = $list['TodoList']['id'];
 		if ($this->request->is('post') || $this->request->is('put')) {
 			if ($this->TodoList->save($this->request->data)) {
 				if ($this->RequestHandler->isAjax()) {
@@ -79,12 +81,12 @@ class ListsController extends AppController {
 					return $this->render('../Elements/json/default');
 				}
 				$this->Session->setFlash(__('The list has been saved'));
-				$this->redirect(array('action' => 'index'));
+				$this->redirect(array('action' => 'view', $list['TodoList']['hash']));
 			} else {
 				$this->Session->setFlash(__('The list could not be saved. Please, try again.'));
 			}
 		} else {
-			$this->request->data = $this->TodoList->read(null, $id);
+			$this->request->data = $list;
 		}
 	}
 

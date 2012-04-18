@@ -14,7 +14,7 @@
 		<td><?php echo h($list['TodoList']['created']); ?>&nbsp;</td>
 		<td><?php echo h($list['TodoList']['modified']); ?>&nbsp;</td>
 		<td class="actions">
-			<?php echo $this->Html->link(__('View'), array('action' => 'view', $list['TodoList']['id'])); ?>
+			<?php echo $this->Html->link(__('View'), array('action' => 'view', $list['TodoList']['hash'])); ?>
 		</td>
 	</tr>
 <?php endforeach; ?>

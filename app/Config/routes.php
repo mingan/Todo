@@ -31,8 +31,8 @@
 /**
  * ...and connect the rest of 'Pages' controller's urls.
  */
-	Router::connect('/list/*', array('controller' => 'lists', 'action' => 'admin'));
-	Router::connect('/share/*', array('controller' => 'lists', 'action' => 'view'));
+	Router::connect('/list/*', array('controller' => 'lists', 'action' => 'view'));
+	Router::connect('/share/*', array('controller' => 'lists', 'action' => 'share'));
 
 /**
  * Load the CakePHP default routes. Remove this if you do not want to use

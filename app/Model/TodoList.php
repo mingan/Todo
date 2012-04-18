@@ -57,7 +57,8 @@ class TodoList extends AppModel {
 	}
 
 	public function generateHash ($data) {
-		if (!(empty($data['TodoList']['hash'])
+		if (!(empty($data['TodoList']['id'])
+				&& empty($data['TodoList']['hash'])
 				&& empty($data['TodoList']['public_hash']))) {
 			return $data;
 		}

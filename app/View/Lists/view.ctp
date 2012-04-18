@@ -13,7 +13,7 @@
 			array(
 				'controller' => 'lists',
 				'action' => 'edit',
-				$list['TodoList']['id']
+				$list['TodoList']['hash']
 			),
 			array(
 				'id' => 'RenameList'
@@ -35,7 +35,7 @@
 	?>
 	<div id="NewTask">
 		<h2><?php echo __('New task')?></h2>
-		<?php echo $this->element('../Tasks/add', array('listId' => $list['TodoList']['id'])) ?>
+		<?php echo $this->element('../Tasks/add', array('listHash' => $list['TodoList']['hash'])) ?>
 	</div>
 	<?php
 	}
@@ -52,7 +52,7 @@ if ($private) {
 	<div class="url"><?php echo $this->Html->link(Router::url(array('controller' => 'lists', 'action' => 'view', $list['TodoList']['hash']), true)); ?></div>
 
 	<h2><?php echo __('URL for sharing'); ?></h2>
-	<div class="url"><?php echo $this->Html->link(Router::url(array('controller' => 'lists', 'action' => 'view', $list['TodoList']['public_hash']), true)); ?></div>
+	<div class="url"><?php echo $this->Html->link(Router::url(array('controller' => 'lists', 'action' => 'share', $list['TodoList']['public_hash']), true)); ?></div>
 	<p><?php echo __('You can use this URL if you want to share your list but don\'t want people to change it.'); ?></p>
 	<?php
 	$this->end();

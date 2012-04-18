@@ -19,17 +19,19 @@ class TasksController extends AppController {
 	}
 
 /**
- * view method
+ * _view method
  *
  * @param string $id
  * @return void
  */
-	public function view($id = null) {
+	public function _view($id = null) {
 		$this->Task->id = $id;
 		if (!$this->Task->exists()) {
 			throw new NotFoundException(__('Invalid task'));
 		}
+		$this->set('private', true);
 		$this->set('task', $this->Task->read(null, $id));
+		$this->render('view');
 	}
 
 /**
@@ -41,12 +43,10 @@ class TasksController extends AppController {
 		if ($this->request->is('post')) {
 			$this->Task->create();
 			if ($this->Task->save($this->request->data)) {
-				if ($this->RequestHandler->isAjax()) {
-					$this->layout = 'default';
-				} else {
+				if (!$this->RequestHandler->isAjax()) {
 					$this->Session->setFlash(__('The task has been saved'));
 				}
-				return $this->redirect(array('action' => 'view', $this->Task->id));
+				return $this->_view($this->Task->id);
 			} else {
 				$this->Session->setFlash(__('The task could not be saved. Please, try again.'));
 			}
@@ -74,7 +74,7 @@ class TasksController extends AppController {
 					return $this->render('../Elements/json/default');
 				}
 				$this->Session->setFlash(__('The task has been saved'));
-				return $this->redirect(array('view', $task['Task']['id']));
+				return $this->_view($id);
 			} else {
 				$this->Session->setFlash(__('The task could not be saved. Please, try again.'));
 			}
@@ -103,7 +103,7 @@ class TasksController extends AppController {
 			}
 		}
 
-		return $this->redirect(array('view', $task['Task']['id']));
+		return $this->_view($id);
 	}
 
 	public function uncomplete ($id) {
@@ -121,7 +121,7 @@ class TasksController extends AppController {
 				return $this->render('../Elements/json/default');
 			}
 		}
-		return $this->redirect(array('view', $task['Task']['id']));
+		return $this->_view($id);
 	}
 
 /**
