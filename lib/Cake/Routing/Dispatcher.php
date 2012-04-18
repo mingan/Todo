@@ -212,15 +212,15 @@ class Dispatcher {
 			}
 			$path = strtolower(Inflector::slug($path));
 
-			$filename = CACHE . 'views' . DS . $path . '.php';
+			$file = Cache::read($path, 'views');
 
-			if (!file_exists($filename)) {
-				$filename = CACHE . 'views' . DS . $path . '_index.php';
+			if (empty($file)) {
+				$file = Cache::read($path . '_index', 'views');
 			}
-			if (file_exists($filename)) {
+			if (!empty($file)) {
 				$controller = null;
 				$view = new View($controller);
-				return $view->renderCache($filename, microtime(true));
+				return $view->renderCache($file, microtime(true));
 			}
 		}
 		return false;

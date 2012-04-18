@@ -538,9 +538,9 @@ class View extends Object {
  * @param string $timeStart the page render start time
  * @return boolean Success of rendering the cached file.
  */
-	public function renderCache($filename, $timeStart) {
+	public function renderCache($file, $timeStart) {
 		ob_start();
-		include ($filename);
+		eval($file);
 
 		if (Configure::read('debug') > 0 && $this->layout != 'xml') {
 			echo "<!-- Cached Render Time: " . round(microtime(true) - $timeStart, 4) . "s -->";
@@ -549,7 +549,6 @@ class View extends Object {
 
 		if (preg_match('/^<!--cachetime:(\\d+)-->/', $out, $match)) {
 			if (time() >= $match['1']) {
-				@unlink($filename);
 				unset ($out);
 				return false;
 			} else {

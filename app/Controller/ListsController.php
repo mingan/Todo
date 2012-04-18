@@ -7,6 +7,10 @@ App::uses('AppController', 'Controller');
  */
 class ListsController extends AppController {
 	public $uses = array('TodoList');
+	public $helpers = array('Cache');
+	public $cacheAction = array(
+		'share' => 1800
+	);
 
 /**
  * index method
@@ -24,7 +28,7 @@ class ListsController extends AppController {
  * @param string $id
  * @return void
  */
-	public function share($hash = null) {
+	public function share($hash = null) {var_dump(rand());
 		$list = $this->TodoList->findWithTasks(array('public_hash' => $hash));
 		if (empty($list)) {
 			throw new NotFoundException(__('Invalid list'));

@@ -276,8 +276,7 @@ class CacheHelper extends AppHelper {
 		if (empty($cache)) {
 			return;
 		}
-		$cache = $cache . '.php';
-		$file = '<!--cachetime:' . $cacheTime . '--><?php';
+		$file = 'echo "<!--cachetime:' . $cacheTime . '-->";';
 
 		if (empty($this->_View->plugin)) {
 			$file .= "
@@ -315,7 +314,7 @@ class CacheHelper extends AppHelper {
 		?>';
 		$content = preg_replace("/(<\\?xml)/", "<?php echo '$1';?>", $content);
 		$file .= $content;
-		return cache('views' . DS . $cache, $file, $timestamp);
+		return Cache::write($cache, $file, 'views');
 	}
 
 }

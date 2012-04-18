@@ -2,7 +2,7 @@
 /**
  * This file is loaded automatically by the app/webroot/index.php file after core.php
  *
- * This file should load/create any application wide configuration settings, such as 
+ * This file should load/create any application wide configuration settings, such as
  * Caching, Logging, loading additional configuration files.
  *
  * You should also use this file to include any files that provide global functions/constants
@@ -83,6 +83,22 @@
  *		'prefix' => Inflector::slug(APP_DIR) . '_', //[optional]  prefix every cache file with this string
  *	));
  */
+
+if (!empty($_SERVER['MEMCACHED_HOST'])) {
+	Cache::config('views', array(
+		'engine' => 'Memcache', //[required]
+		'servers' => array(
+			$_SERVER['MEMCACHED_HOST']
+		),
+	));
+
+} else {
+	Cache::config('views', array(
+		'engine' => 'File',
+		'path' => CACHE . 'views' . DS
+	));
+}
+
 Cache::config('default', array('engine' => 'File'));
 
 /**
