@@ -24,22 +24,23 @@ class ListsController extends AppController {
  * @param string $id
  * @return void
  */
-	public function view($id = null) {
-		$this->TodoList->id = $id;
-		if (!$this->TodoList->exists()) {
+	public function view($hash = null) {
+		$list = $this->TodoList->findWithTasks(array('public_hash' => $hash));
+		if (empty($list)) {
 			throw new NotFoundException(__('Invalid list'));
 		}
-		$this->set('list', $this->TodoList->find(
-			'first',
-			array(
-				'conditions' => array('id' => $id),
-				'contain' => array(
-					'Task' => array(
-						'order' => 'completed ASC, completed_at DESC, created ASC',
-					)
-				)
-			)
-		));
+		$private = false;
+		$this->set(compact('list', 'private'));
+	}
+
+	public function admin($hash = null) {
+		$list = $this->TodoList->findWithTasks(array('hash' => $hash));
+		if (empty($list)) {
+			throw new NotFoundException(__('Invalid list'));
+		}
+		$private = true;
+		$this->set(compact('list', 'private'));
+		$this->render('view');
 	}
 
 /**
@@ -87,25 +88,4 @@ class ListsController extends AppController {
 		}
 	}
 
-/**
- * delete method
- *
- * @param string $id
- * @return void
- */
-	public function delete($id = null) {
-		if (!$this->request->is('post')) {
-			throw new MethodNotAllowedException();
-		}
-		$this->TodoList->id = $id;
-		if (!$this->TodoList->exists()) {
-			throw new NotFoundException(__('Invalid list'));
-		}
-		if ($this->TodoList->delete()) {
-			$this->Session->setFlash(__('List deleted'));
-			$this->redirect(array('action' => 'index'));
-		}
-		$this->Session->setFlash(__('List was not deleted'));
-		$this->redirect(array('action' => 'index'));
-	}
 }

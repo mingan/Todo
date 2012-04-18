@@ -103,4 +103,18 @@ class TodoList extends AppModel {
 		$data['Task'] = $return;
 		return $data;
 	}
+
+	public function findWithTasks ($cond = array()) {
+		return $this->find(
+			'first',
+			array(
+				'conditions' => (array)$cond,
+				'contain' => array(
+					'Task' => array(
+						'order' => 'completed ASC, completed_at DESC, created ASC',
+					)
+				)
+			)
+		);
+	}
 }

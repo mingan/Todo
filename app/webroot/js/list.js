@@ -47,7 +47,7 @@ $().ready(function () {
 	a($)
 
 	function initLinks (lis) {
-		lis.find('.complete, .uncomplete').click(function (e) {
+		lis.find('a.complete, a.uncomplete').click(function (e) {
 			e.preventDefault()
 
 			var $task = $(this).parent().addClass('loading')
