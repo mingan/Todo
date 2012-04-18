@@ -18,6 +18,18 @@ db1: #component type & number
   name: base
   type: mysql
 
+cache1:
+  type: memcached
+
+cache2:
+  type: memcached
+
+cache3:
+  type: memcached
+
+cache4:
+  type: memcached
+
 global:
   env:
     - CONFIG_SOURCE: Boxfile

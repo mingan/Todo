@@ -88,7 +88,10 @@ if (!empty($_SERVER['MEMCACHED_HOST'])) {
 	Cache::config('views', array(
 		'engine' => 'Memcache', //[required]
 		'servers' => array(
-			$_SERVER['MEMCACHED_HOST']
+			$_SERVER['MEMCACHED_HOST'],
+			$_SERVER['MEMCACHED_HOST_2'],
+			$_SERVER['MEMCACHED_HOST_3'],
+			$_SERVER['MEMCACHED_HOST_4']
 		),
 	));
 
