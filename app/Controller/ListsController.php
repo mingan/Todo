@@ -28,7 +28,7 @@ class ListsController extends AppController {
  * @param string $id
  * @return void
  */
-	public function share($hash = null) {var_dump(rand());
+	public function share($hash = null) {
 		$list = $this->TodoList->findWithTasks(array('public_hash' => $hash));
 		if (empty($list)) {
 			throw new NotFoundException(__('Invalid list'));
