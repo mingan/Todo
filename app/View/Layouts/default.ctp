@@ -17,7 +17,9 @@
 <body>
 	<div id="BodyWrap" class="contain">
 		<div id="ContentWrap">
+			<!--nocache-->
 			<?php echo $this->Session->flash(); ?>
+			<!--/nocache-->
 
 			<?php echo $this->fetch('content'); ?>
 		</div>
