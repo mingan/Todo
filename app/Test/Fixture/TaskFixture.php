@@ -91,7 +91,7 @@ ergrege',
 			'id' => '33'
 		),
 		array(
-			'list_id' => '1',
+			'list_id' => '2',
 			'name' => 'thrtzhtze',
 			'desc' => 'tzrztr',
 			'completed' => 1,
@@ -101,7 +101,7 @@ ergrege',
 			'id' => '34'
 		),
 		array(
-			'list_id' => '1',
+			'list_id' => '2',
 			'name' => 'thrtzhtzf',
 			'desc' => 'rgergre',
 			'completed' => 1,
@@ -111,7 +111,7 @@ ergrege',
 			'id' => '35'
 		),
 		array(
-			'list_id' => '1',
+			'list_id' => '3',
 			'name' => 'Pečivo',
 			'desc' => 'od všeho trochu',
 			'completed' => 0,

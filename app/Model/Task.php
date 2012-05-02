@@ -103,7 +103,7 @@ class Task extends AppModel {
 	}
 
 	public function mergeFields ($data) {
-		if (!empty($data['Task']['name']) && !empty($data['Task']['name'])) {
+		if (!empty($data['Task']['name']) && !empty($data['Task']['desc'])) {
 			$data['Task']['complete'] = trim($data['Task']['name'] . PHP_EOL . $data['Task']['desc'], PHP_EOL);
 		} else {
 			$data['Task']['complete'] = $data['Task']['name'];
